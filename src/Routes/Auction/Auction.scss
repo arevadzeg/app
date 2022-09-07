@@ -1,0 +1,39 @@
+.auction-item {
+    height: 450px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    img {
+        height: 350px;
+        width: 300px;
+        object-fit: cover;
+    }
+
+    p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+}
+
+.auction_items-wrapper {
+    padding: 40px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.auction {
+    margin-bottom: 25px;
+
+    .MuiPagination-root {
+        ul {
+
+            place-content: center;
+        }
+    }
+}
