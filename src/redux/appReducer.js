@@ -1,13 +1,13 @@
 const INIT_STATE = {
-    isAdmin: false
+    user: null
 };
 
 const appReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case 'SET_IS_ADMIN': {
+        case 'SET_USER': {
             return {
                 ...state,
-                isAdmin: action.payload,
+                user: action.payload,
             }
         }
 

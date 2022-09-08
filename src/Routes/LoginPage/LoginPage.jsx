@@ -5,13 +5,17 @@ import { AuthSchema } from '../../validationSchemas/AuthSchema';
 import { login } from '../../api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/actions';
 
 
 const LoginPage = () => {
 
     const [error, setError] = useState(null)
 
+
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -22,6 +26,7 @@ const LoginPage = () => {
             login(values).then((res) => {
                 localStorage.setItem('access_token', res.data.access_token)
                 localStorage.setItem('user_info', JSON.stringify(res.data.userInfo))
+                dispatch(setUser(res.data.userInfo))
                 navigate('/auction')
             }).catch(err => {
                 console.log(err)

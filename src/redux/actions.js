@@ -1,6 +1,6 @@
-export const setCurrency = (payload) => {
+export const setUser = (payload) => {
     return {
-        type: "SET_IS_ADMIN",
+        type: "SET_USER",
         payload: payload
     };
 };
