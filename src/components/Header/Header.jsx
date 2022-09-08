@@ -1,13 +1,22 @@
 import './header.scss'
 import Logo from '../../assets/logo.png'
+import { useSelector } from 'react-redux'
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
+    const user = useSelector(data => data.user)
+    const navigate = useNavigate()
+
     return <header className='header'>
         <img src={Logo} alt='logo' />
 
-        <div>
-            buttons
-        </div>
+
+        {user && user.role === 'admin' &&
+            <Button variant='contained' onClick={() => navigate('/admin')}>
+                Add product</Button>
+        }
 
     </header>
 }
