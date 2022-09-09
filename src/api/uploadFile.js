@@ -33,3 +33,11 @@ export const createNewProduct = (data) => {
         console.log(err)
     }
 }
+
+export const getAllProducts = (page) => {
+    try {
+        return axiosInstance.get(`product?page=${page}`)
+    } catch (err) {
+        console.log(err)
+    }
+}

@@ -25,7 +25,7 @@ const NewProductForm = () => {
         },
         onSubmit: async (values) => {
             try {
-                const imageNames = images.length > 0 && await saveImageInDB()
+                const imageNames = (images.length > 0 && await saveImageInDB()) || []
                 await createNewProduct({ ...values, onGoingPrice: values.price, image: imageNames })
                 setImages([])
                 formik.resetForm()

@@ -1,62 +1,44 @@
 import './Auction.scss'
 import Image from '../../assets/painting.jpg'
 import Pagination from '@mui/material/Pagination';
+import { useEffect, useState } from 'react';
+import { getAllProducts } from '../../api/uploadFile';
 
 
 const Auction = () => {
+
+    const [products, setProducts] = useState([])
+    const [totalPages, setTotalPages] = useState(0)
+    const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        getAllProducts(page).then((res) => {
+            setTotalPages(res.data.pages)
+            setProducts(res.data.products)
+        })
+    }, [page])
 
     return <div className="auction">
 
         <h2>Upcoming auctions</h2>
         <div className="auction_items-wrapper">
 
-            <div className="auction-item">
-                <img src={Image} alt=' ' />
-                <span>Painting</span>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, praesentium possimus dolore, odit soluta at quaerat esse magni amet nesciunt obcaecati inventore ad! Harum incidunt eveniet vel iusto quo illum.
-                </p>
-            </div>
-            <div className="auction-item">
-                <img src={Image} alt=' ' />
-                <span>Painting</span>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, praesentium possimus dolore, odit soluta at quaerat esse magni amet nesciunt obcaecati inventore ad! Harum incidunt eveniet vel iusto quo illum.
-                </p>
-            </div>
-            <div className="auction-item">
-                <img src={Image} alt=' ' />
-                <span>Painting</span>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, praesentium possimus dolore, odit soluta at quaerat esse magni amet nesciunt obcaecati inventore ad! Harum incidunt eveniet vel iusto quo illum.
-                </p>
-            </div>
-            <div className="auction-item">
-                <img src={Image} alt=' ' />
-                <span>Painting</span>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, praesentium possimus dolore, odit soluta at quaerat esse magni amet nesciunt obcaecati inventore ad! Harum incidunt eveniet vel iusto quo illum.
-                </p>
-            </div>
-            <div className="auction-item">
-                <img src={Image} alt=' ' />
-                <span>Painting</span>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, praesentium possimus dolore, odit soluta at quaerat esse magni amet nesciunt obcaecati inventore ad! Harum incidunt eveniet vel iusto quo illum.
-                </p>
-            </div>
-            <div className="auction-item">
-                <img src={Image} alt=' ' />
-                <span>Painting</span>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, praesentium possimus dolore, odit soluta at quaerat esse magni amet nesciunt obcaecati inventore ad! Harum incidunt eveniet vel iusto quo illum.
-                </p>
-            </div>
+            {
+                products.map((product, i) => {
+                    return <div className="auction-item" key={i}>
+                        <img src={product.image[0] || 'noImage.png'} alt=' ' />
+                        <span>{product.name}</span>
+                        <p>
+                            {product.description}
+                        </p>
+                    </div>
+                })
+            }
 
         </div>
 
 
-        <Pagination count={10} variant="outlined" />
+        <Pagination count={totalPages} variant="outlined" onChange={(e) => setPage(e.target.textContent)} />
 
     </div>
 }
