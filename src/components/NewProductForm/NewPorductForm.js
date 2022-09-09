@@ -1,30 +1,103 @@
 import { TextField, Button } from '@mui/material';
 import { useState } from 'react';
-import { uploadSingleFile } from '../../api/uploadFile';
+import { createNewProduct, uploadMultipleFiles, uploadSingleFile } from '../../api/uploadFile';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import './newProductForm.scss'
+import { useFormik } from 'formik';
+import { NewProductSchema } from '../../validationSchemas/NewProductSchema';
+import { isEmpty } from 'lodash'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
+const ThreeDays = 259200000
 
 const NewProductForm = () => {
 
-    const [state, setState] = useState(null)
+    const [images, setImages] = useState([])
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const data = new FormData()
-        data.append('image', state)
-        try {
-            const x = await uploadSingleFile(data)
-            console.log(x)
-        } catch (err) {
-            console.log(err)
-        }
+    const formik = useFormik({
+        initialValues: {
+            auctionDate: new Date(Date.now() + ThreeDays),
+            name: "",
+            description: "",
+            price: ""
+        },
+        onSubmit: async (values) => {
+            try {
+                const imageNames = images.length > 0 && await saveImageInDB()
+                await createNewProduct({ ...values, onGoingPrice: values.price, image: imageNames })
+                setImages([])
+                formik.resetForm()
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        validationSchema: NewProductSchema,
+        validateOnBlur: false,
+        validateOnChange: false
+    })
 
+    const cancelImage = (index) => {
+        images.splice(index, 1)
+        setImages([...images])
     }
 
-    return <form action='/upload' encType='multipart/form-data'>
+    const handleImageUpload = (e) => {
+        const prevFiles = [...images]
+        for (let i = 0; i < e.target.files.length; i++) {
+            let file = e.target.files[i]
+            if (file.size < 50000000) {
+                prevFiles.push(file)
+            }
+        }
+        setImages([...prevFiles])
+    }
 
-        <TextField label='name' />
-        <TextField label='description' />
-        <TextField label='name' />
+    const saveImageInDB = async () => {
+        if (!isEmpty(images)) {
+            const data = new FormData()
+            if (images.length === 1) {
+                data.append('image', images[0])
+                try {
+                    const response = await uploadSingleFile(data)
+                    return response.data
+                } catch (err) { }
+            }
+            else {
+                images.forEach((image) => data.append('image', image))
+                try {
+                    const response = await uploadMultipleFiles(data)
+                    return response.data
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        }
+    }
+
+    return <form className='new_product-form'>
+
+        <TextField label='name'
+            error={Boolean(formik.errors.name)}
+            helperText={formik.errors.name}
+            name='name'
+            value={formik.values.name}
+            onChange={formik.handleChange} />
+        <TextField label='description'
+            multiline
+            error={Boolean(formik.errors.description)}
+            helperText={formik.errors.description}
+            name='description'
+            value={formik.values.description}
+            onChange={formik.handleChange}
+        />
+        <TextField label='starting price'
+            error={Boolean(formik.errors.price)}
+            helperText={formik.errors.price}
+            name='price'
+            value={formik.values.price}
+            onChange={formik.handleChange} />
         <Button
             variant="contained"
             component="label"
@@ -34,11 +107,37 @@ const NewProductForm = () => {
             <input
                 type="file"
                 name='image'
-                onChange={(e) => setState(e.target.files[0])}
+                onChange={handleImageUpload}
                 hidden
+                multiple
             />
         </Button>
-        <button onClick={handleSubmit}>SUBMIT</button>
+        {
+            !isEmpty(images) && <div className='attachments'>{
+                images.map((image, index) => {
+
+                    return <div className='attachment'>
+                        <RemoveCircleIcon onClick={() => cancelImage(index)} />
+                        <img src={URL.createObjectURL(image)} alt=" " />
+                    </div>
+                })
+            }</div>
+        }
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+                label="Date&Time picker"
+                name='auctionDate'
+                value={formik.values.auctionDate}
+                onChange={(e) => formik.setFieldValue('auctionDate', e)}
+                error={Boolean(formik.errors.auctionDate)}
+                helperText={formik.errors.auctionDate}
+                renderInput={(params) => <TextField {...params}
+                />}
+            />
+        </LocalizationProvider>
+
+
+        <Button variant='outlined' onClick={formik.handleSubmit}>SUBMIT</Button>
     </form>
 
 }

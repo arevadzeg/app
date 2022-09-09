@@ -12,3 +12,24 @@ export const uploadSingleFile = (data) => {
         return err
     }
 }
+export const uploadMultipleFiles = (data) => {
+    try {
+        return axiosInstance.post('/upload/multiple', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    } catch (err) {
+        console.log(err)
+        return err
+    }
+}
+
+
+export const createNewProduct = (data) => {
+    try {
+        return axiosInstance.post('product', data)
+    } catch (err) {
+        console.log(err)
+    }
+}
