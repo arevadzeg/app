@@ -12,3 +12,10 @@ export const setSearch = (payload) => {
         payload: payload
     };
 };
+
+export const setSort = (payload) => {
+    return {
+        type: "SET_SORT",
+        payload: payload
+    };
+};

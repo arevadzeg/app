@@ -1,6 +1,7 @@
 const INIT_STATE = {
     user: null,
-    search: ""
+    search: "",
+    sort: "default",
 };
 
 const appReducer = (state = INIT_STATE, action) => {
@@ -16,6 +17,13 @@ const appReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 search: action.payload,
+            }
+        }
+
+        case "SET_SORT": {
+            return {
+                ...state,
+                sort: action.payload,
             }
         }
 

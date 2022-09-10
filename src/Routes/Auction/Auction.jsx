@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/uploadFile';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Sort from '../../components/Sort/Sort';
 
 
 const Auction = () => {
@@ -21,12 +22,13 @@ const Auction = () => {
     }, [page])
 
 
-    const search = useSelector((data) => data.search)
+    const { search, sort } = useSelector((data) => data)
 
     useEffect(() => setInitialRender(false), [])
 
-    const handleSearch = async () => {
-        const { data } = await getAllProducts(page, search)
+    const handleSearchSort = async () => {
+        console.log(page, search, sort)
+        const { data } = await getAllProducts(page, search, sort)
         setProducts(data.products)
         setTotalPages(data.pages)
         setPage(1)
@@ -34,14 +36,16 @@ const Auction = () => {
 
     useEffect(() => {
         if (!initialRender) {
-            handleSearch()
-            console.log('zzzzzzzzz', search)
+            handleSearchSort()
         }
-    }, [search])
+    }, [search, sort])
 
     return <div className="auction">
 
-        <h2>Upcoming auctions</h2>
+        <div className='auction-header'>
+            <h2>Upcoming auctions</h2>
+            <Sort />
+        </div>
         <div className="auction_items-wrapper">
 
             {

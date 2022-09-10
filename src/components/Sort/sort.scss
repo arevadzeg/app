@@ -1,0 +1,17 @@
+ .sort {
+     height: 40px;
+
+     .MuiInputBase-root:after {
+         content: none !important;
+     }
+
+     .MuiSelect-standard:focus {
+         background-color: #fff;
+
+     }
+
+     &:after {
+         content: none !important;
+     }
+
+ }

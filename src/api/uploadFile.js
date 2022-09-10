@@ -34,7 +34,8 @@ export const createNewProduct = (data) => {
     }
 }
 
-export const getAllProducts = (page = 0, search = "", sort = "") => {
+export const getAllProducts = (page = 1, search = "", sort = "") => {
+    if (sort === "default") sort = ""
     const params = new URLSearchParams({
         page,
         search,
