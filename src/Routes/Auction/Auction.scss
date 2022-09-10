@@ -1,13 +1,21 @@
-.auction-item {
+.auction_item {
     height: 450px;
     width: 350px;
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px 0 rgb(0 0 0 / 12%);
+    transition: all 200ms ease-in;
+
+
+    &:hover {
+        box-shadow: 0 6px 16px 0 rgb(0 0 0 / 25%);
+    }
 
     img {
         height: 350px;
-        width: 300px;
+        width: 100%;
         object-fit: cover;
     }
 
@@ -16,6 +24,10 @@
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+    }
+
+    .auction_item-info {
+        padding: 20px;
     }
 }
 

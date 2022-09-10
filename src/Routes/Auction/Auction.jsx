@@ -1,8 +1,8 @@
 import './Auction.scss'
-import Image from '../../assets/painting.jpg'
 import Pagination from '@mui/material/Pagination';
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/uploadFile';
+import { Link } from 'react-router-dom';
 
 
 const Auction = () => {
@@ -25,13 +25,17 @@ const Auction = () => {
 
             {
                 products.map((product, i) => {
-                    return <div className="auction-item" key={i}>
-                        <img src={product.image[0] || 'noImage.png'} alt=' ' />
-                        <span>{product.name}</span>
-                        <p>
-                            {product.description}
-                        </p>
-                    </div>
+                    return <Link to={`${product._id}`}>
+                        <div className="auction_item" key={i}>
+                            <img src={product.image[0] || 'noImage.png'} alt=' ' />
+                            <div className='auction_item-info'>
+                                <span>{product.name}</span>
+                                <p>
+                                    {product.description}
+                                </p>
+                            </div>
+                        </div>
+                    </Link>
                 })
             }
 

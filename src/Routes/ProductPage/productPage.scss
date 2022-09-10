@@ -1,0 +1,105 @@
+.product-wrapper {
+    padding: 45px;
+    display: flex;
+    gap: 76px;
+
+    .product_image-selected {
+        width: 750px;
+        height: 600px;
+        object-fit: contain;
+        object-position: top;
+
+    }
+
+    .product_image-small {
+        width: 110px;
+        height: 80px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 3px transparent solid;
+
+    }
+
+    .product_image-small-selected {
+        border: 3px #00deff solid;
+    }
+
+    .product_gallery>div {
+        display: flex;
+        gap: 15px;
+    }
+
+
+
+
+    .product_info {
+        border: 1px #eeeeee solid;
+        width: 500px;
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        background-color: #f9f9f9;
+        padding: 25px 22px 11px;
+        justify-content: space-evenly;
+
+        .product_info-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .product_info-price {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .product_info-countdown span {
+            color: #ff0000;
+            margin-left: 12px
+        }
+
+        .product_info-bottom {
+            display: flex;
+            flex-direction: column;
+
+            .bid_info-history,
+            .bid_info-tooltip {
+                align-self: flex-end;
+                margin-bottom: 15px;
+                cursor: pointer;
+            }
+
+            .bid_info-tooltip>svg {
+                height: 20px;
+            }
+
+            .bid_info-history {
+                color: #949494;
+
+                &:hover {
+                    color: #0e0e0e;
+                }
+            }
+        }
+
+    }
+
+    .product_description {
+        margin-top: 50px;
+    }
+
+
+    .product_bid-input {
+
+        .MuiButtonBase-root {
+            height: 100%;
+            width: 150px;
+            right: -13px;
+            z-index: 5;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+            border: 1px solid #ccc !important;
+        }
+    }
+}

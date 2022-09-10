@@ -41,3 +41,11 @@ export const getAllProducts = (page) => {
         console.log(err)
     }
 }
+
+export const getSingleProduct = (id) => {
+    try {
+        return axiosInstance.get(`product/${id}`)
+    } catch (err) {
+        console.log(err)
+    }
+}

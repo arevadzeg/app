@@ -3,6 +3,7 @@ import Header from "./components/Header/Header";
 import LoginPage from "./Routes/LoginPage/LoginPage";
 import Auction from "./Routes/Auction/Auction";
 import Admin from "./Routes/Admin/Admin";
+import ProductPage from "./Routes/ProductPage/ProductPage";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <Routes>
 
         <Route path="/" element={<LoginPage />} />
-        <Route path='/auction' element={<Auction />} />
+        <Route path='/auction' exact element={<Auction />} />
+        <Route path='/auction/:id' element={<ProductPage />} />
         <Route path='/admin' element={<Admin />} />
 
       </Routes>
