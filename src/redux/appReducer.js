@@ -1,5 +1,6 @@
 const INIT_STATE = {
-    user: null
+    user: null,
+    search: ""
 };
 
 const appReducer = (state = INIT_STATE, action) => {
@@ -8,6 +9,13 @@ const appReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 user: action.payload,
+            }
+        }
+
+        case "SET_SEARCH": {
+            return {
+                ...state,
+                search: action.payload,
             }
         }
 

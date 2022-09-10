@@ -3,6 +3,7 @@ import Pagination from '@mui/material/Pagination';
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../api/uploadFile';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const Auction = () => {
@@ -10,6 +11,7 @@ const Auction = () => {
     const [products, setProducts] = useState([])
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
+    const [initialRender, setInitialRender] = useState(true)
 
     useEffect(() => {
         getAllProducts(page).then((res) => {
@@ -17,6 +19,25 @@ const Auction = () => {
             setProducts(res.data.products)
         })
     }, [page])
+
+
+    const search = useSelector((data) => data.search)
+
+    useEffect(() => setInitialRender(false), [])
+
+    const handleSearch = async () => {
+        const { data } = await getAllProducts(page, search)
+        setProducts(data.products)
+        setTotalPages(data.pages)
+        setPage(1)
+    }
+
+    useEffect(() => {
+        if (!initialRender) {
+            handleSearch()
+            console.log('zzzzzzzzz', search)
+        }
+    }, [search])
 
     return <div className="auction">
 

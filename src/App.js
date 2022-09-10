@@ -12,12 +12,10 @@ function App() {
       <Header />
 
       <Routes>
-
         <Route path="/" element={<LoginPage />} />
         <Route path='/auction' exact element={<Auction />} />
         <Route path='/auction/:id' element={<ProductPage />} />
         <Route path='/admin' element={<Admin />} />
-
       </Routes>
     </div>
   );

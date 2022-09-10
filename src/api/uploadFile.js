@@ -34,9 +34,14 @@ export const createNewProduct = (data) => {
     }
 }
 
-export const getAllProducts = (page) => {
+export const getAllProducts = (page = 0, search = "", sort = "") => {
+    const params = new URLSearchParams({
+        page,
+        search,
+        sort,
+    });
     try {
-        return axiosInstance.get(`product?page=${page}`)
+        return axiosInstance.get('product?' + params)
     } catch (err) {
         console.log(err)
     }

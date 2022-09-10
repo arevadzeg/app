@@ -4,3 +4,11 @@ export const setUser = (payload) => {
         payload: payload
     };
 };
+
+
+export const setSearch = (payload) => {
+    return {
+        type: "SET_SEARCH",
+        payload: payload
+    };
+};
