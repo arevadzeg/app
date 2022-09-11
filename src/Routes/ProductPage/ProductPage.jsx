@@ -1,21 +1,42 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getSingleProduct } from '../../api/uploadFile'
+import { bidOnProduct, getSingleProduct } from '../../api/uploadFile'
 import { isEmpty } from 'lodash'
 import './productPage.scss'
 import { Button, CircularProgress, TextField, Tooltip } from '@mui/material'
 import GavelIcon from '@mui/icons-material/Gavel';
 import useCountDown from '../../hooks/useCountDown'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import QuestionMarkSVG from '../../assets/QuestionMarkSVG'
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
 
 const ProductPage = () => {
 
     const [product, setProduct] = useState(null)
     const [selectedImage, setSelectedImage] = useState(0)
     const [loading, setLoading] = useState(true)
-
+    const [bidAmount, setBidAmount] = useState("")
+    const [bidError, setBidError] = useState(null)
     let { id } = useParams();
+    const { user } = useSelector((data) => data)
+
+    const ownerIsTheHighestBidder = useMemo(() => product?.bidHistory[0]?.bidder === user?.username, [product, user])
+
+    const handleBid = async () => {
+        const prevBid = product.bidHistory[0]?.bid || Infinity
+        if ((bidAmount > prevBid) && !ownerIsTheHighestBidder) {
+            const newPrice = product.onGoingPrice + bidAmount
+            const newBidHistoryEntry = { bidder: user.username, price: newPrice, bid: bidAmount }
+            const newBidHistory = [newBidHistoryEntry, ...product.bidHistory]
+            await bidOnProduct(id, { onGoingPrice: newPrice, bidHistory: newBidHistoryEntry })
+            setProduct((prev) => { return { ...prev, onGoingPrice: newPrice, bidHistory: newBidHistory } })
+            setBidAmount("")
+            setBidError("")
+        } else {
+            setBidError('Bid amount should be more than previous bid')
+        }
+    }
+
 
 
     useEffect(() => {
@@ -66,9 +87,14 @@ const ProductPage = () => {
                                     </div>
                                 </Tooltip>
                                 <TextField
-                                    className='product_bid-input'
+                                    className='product_bid-input textFiled'
+                                    error={Boolean(bidError)}
+                                    helperText={bidError}
                                     variant='outlined'
-                                    InputProps={{ endAdornment: <Button variant='contained' disableElevation startIcon={<GavelIcon />}>Bid</Button> }}
+                                    value={bidAmount}
+                                    onKeyDown={(e) => e.key === 'Backspace' ? {} : isNaN(Number(e.key)) ? e.preventDefault() : {}}
+                                    onChange={(e) => setBidAmount(e.target.value)}
+                                    InputProps={{ endAdornment: <Button onClick={handleBid} disabled={ownerIsTheHighestBidder} className='button' variant='contained' disableElevation startIcon={<GavelIcon />}>Bid</Button> }}
                                 />
                             </div>
                         </div>

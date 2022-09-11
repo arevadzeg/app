@@ -45,11 +45,18 @@
         .product_info-top {
             display: flex;
             justify-content: space-between;
+            font-size: 18px;
         }
 
         .product_info-price {
             display: flex;
             flex-direction: column;
+
+            >h4 {
+                font-size: 25px;
+                margin-top: 15px;
+                margin-bottom: 0;
+            }
         }
 
 

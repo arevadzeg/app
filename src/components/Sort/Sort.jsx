@@ -17,7 +17,7 @@ const Sort = () => {
 
     return <>
         <Select
-            className='sort'
+            className='select sort'
             value={sortState}
             variant='standard'
             onChange={(e) => handleSortChange(e)}

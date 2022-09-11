@@ -8,6 +8,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto Mono', monospace;
 }
 
 .error {
@@ -30,10 +31,26 @@ select:-webkit-autofill:focus {
     content: none !important;
 }
 
+.textFiled .MuiInputBase-root {
+    background-color: #fff;
+}
+
+select.MuiInput-underline::after {
+    content: none !important;
+}
+
+
 .textFiled .MuiFormLabel-root.Mui-focused {
     color: #000 !important;
 }
 
 .button.MuiButtonBase-root.MuiButtonBase-root {
     background-color: #000;
+}
+
+.button.Mui-disabled {
+    color: #fff !important;
+    opacity: 0.6;
+    pointer-events: all !important;
+
 }

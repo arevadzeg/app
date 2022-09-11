@@ -55,3 +55,12 @@ export const getSingleProduct = (id) => {
         console.log(err)
     }
 }
+
+export const bidOnProduct = (id, data) => {
+    console.log(id, data)
+    try {
+        return axiosInstance.post(`product/bid/${id}`, data)
+    } catch (err) {
+
+    }
+}
