@@ -9,6 +9,7 @@ import useCountDown from '../../hooks/useCountDown'
 import QuestionMarkSVG from '../../assets/QuestionMarkSVG'
 import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
+import useBidHistory from '../../hooks/useBidHistory'
 
 const ProductPage = () => {
 
@@ -19,6 +20,9 @@ const ProductPage = () => {
     const [bidError, setBidError] = useState(null)
     let { id } = useParams();
     const { user } = useSelector((data) => data)
+    const {
+        handleModalOpen,
+        BidHistoryModal } = useBidHistory(product?.bidHistory)
 
     const ownerIsTheHighestBidder = useMemo(() => product?.bidHistory[0]?.bidder === user?.username, [product, user])
 
@@ -78,7 +82,7 @@ const ProductPage = () => {
                                 </div>
                             </div>
                             <div className='product_info-bottom'>
-                                <div className='bid_info-history'>
+                                <div className='bid_info-history' onClick={() => handleModalOpen()}>
                                     [ {product.bidHistory.length} Bids] Bidding History
                                 </div>
                                 <Tooltip title="Bid should higher than previous bid" placement="top-end">
@@ -103,6 +107,7 @@ const ProductPage = () => {
                             <p>{product.description}</p>
                         </div>
                     </div>
+                    {BidHistoryModal}
 
                 </>
         }

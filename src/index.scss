@@ -54,3 +54,39 @@ select.MuiInput-underline::after {
     pointer-events: all !important;
 
 }
+
+.bid_history-modal {
+    background-color: #fff;
+    padding: 40px;
+    width: 500px;
+    border-radius: 8px;
+
+    .bid_history-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        font-size: 17px;
+        font-weight: bold;
+
+        >span {
+            flex: 100px 1;
+            text-align: center;
+        }
+    }
+
+    .bid_history-body {
+        display: flex;
+        justify-content: space-between;
+
+        &:nth-child(odd) {
+            background-color: rgb(225, 225, 225);
+        }
+
+        >div {
+            flex: 100px 1;
+            text-align: center;
+            margin: 12px 0;
+        }
+    }
+
+}
