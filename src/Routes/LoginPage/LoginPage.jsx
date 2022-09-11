@@ -40,13 +40,19 @@ const LoginPage = () => {
 
     return <div className="login_page">
 
-        <h1>
-            Welcome to Scopic Auction please login in to get started
-        </h1>
+        <div className='login_page-background'>
+            <div>
+                <h3>The Ann & Gordon Getty Collection</h3>
+                <p>A rich array of decorative arts from one of America’s most celebrated interiors</p>
+            </div>
+
+            <video src='antique-video.mp4' autoPlay muted loop className='login_page-video' />
+        </div>
 
         <form className="login_form center">
             {error && <p className='error'>{error}</p>}
             <TextField variant="standard"
+                className='textFiled'
                 label='Username'
                 error={Boolean(formik.errors.username)}
                 helperText={formik.errors.username}
@@ -54,6 +60,7 @@ const LoginPage = () => {
                 value={formik.values.username}
                 onChange={formik.handleChange} />
             <TextField variant="standard" label='Password'
+                className='textFiled'
                 error={Boolean(formik.errors.password)}
                 helperText={formik.errors.password}
                 name='password'
@@ -61,7 +68,7 @@ const LoginPage = () => {
                 onChange={formik.handleChange}
                 type='password' />
 
-            <Button variant='contained' onClick={formik.handleSubmit}>
+            <Button variant='contained' onClick={formik.handleSubmit} className='button'>
                 Login
             </Button>
 
