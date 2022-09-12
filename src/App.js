@@ -1,11 +1,29 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Header from "./components/Header/Header";
 import LoginPage from "./Routes/LoginPage/LoginPage";
 import Auction from "./Routes/Auction/Auction";
 import Admin from "./Routes/Admin/Admin";
 import ProductPage from "./Routes/ProductPage/ProductPage";
+import { useEffect } from "react";
+import { verifyToken } from "./api/authApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "./redux/actions";
 
 function App() {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    verifyToken().then((res) => {
+      dispatch(setUser(res.data))
+    }).catch((err) => {
+      localStorage.clear()
+      navigate('/')
+    })
+  }, [])
+
+
   return (
     <div className="App">
 

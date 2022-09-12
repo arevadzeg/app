@@ -9,3 +9,12 @@ export const login = (data) => {
         return err
     }
 }
+
+export const verifyToken = () => {
+    try {
+        return axios.post('/auth/verifyToken')
+    } catch (err) {
+        console.log(err)
+        return err
+    }
+}

@@ -31,13 +31,18 @@
 
 .auction_items-wrapper {
     display: grid;
-    grid-gap: 3%;
+    column-gap: 3%;
     grid-template-columns: repeat(auto-fit, minmax(400px, 20%));
     justify-content: center;
+
+    >a {
+        text-decoration: none;
+        color: #000;
+        margin-top: 35px;
+    }
 }
 
 .auction {
-    margin-bottom: 25px;
     padding: 40px;
 
     .auction-header {

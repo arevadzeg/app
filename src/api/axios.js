@@ -12,25 +12,25 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-axiosInstance.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    (error) => {
-        if (error.response.status === 401 || error.response.status === 403) {
-            if (
-                window.location.pathname === "/"
-            ) {
-            } else {
-                console.log(error);
-                window.location = "/";
-                localStorage.clear()
-            }
-        }
-        console.log(error);
-        throw error;
-    }
-);
+// axiosInstance.interceptors.response.use(
+//     (response) => {
+//         return response;
+//     },
+//     (error) => {
+//         if (error.response.status === 401 || error.response.status === 403) {
+//             if (
+//                 window.location.pathname === "/"
+//             ) {
+//             } else {
+//                 console.log(error);
+//                 window.location = "/";
+//                 localStorage.clear()
+//             }
+//         }
+//         console.log(error);
+//         throw error;
+//     }
+// );
 
 
 export default axiosInstance
