@@ -1,6 +1,6 @@
 import { TextField, Button } from '@mui/material';
-import { useState } from 'react';
-import { createNewProduct, uploadMultipleFiles, uploadSingleFile } from '../../api/uploadFile';
+import { useMemo, useState } from 'react';
+import { createNewProduct, uploadMultipleFiles, uploadSingleFile, editProduct } from '../../api/uploadFile';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,23 +12,42 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 const ThreeDays = 259200000
 
-const NewProductForm = () => {
+const NewProductForm = ({ formMode, productToEdit, setProducts, setProductToEdit }) => {
 
     const [images, setImages] = useState([])
 
+    const defaultValues = useMemo(() => {
+        return {
+            auctionDate: formMode === 'edit' ? productToEdit.auctionDate : new Date(Date.now() + ThreeDays),
+            name: formMode === 'edit' ? productToEdit.name : "",
+            description: formMode === 'edit' ? productToEdit.description : "",
+            price: formMode === 'edit' ? productToEdit.onGoingPrice : "",
+        }
+    }, [formMode, productToEdit])
+
+    console.log('ffffffffffff', editProduct, productToEdit)
+
     const formik = useFormik({
         initialValues: {
-            auctionDate: new Date(Date.now() + ThreeDays),
-            name: "",
-            description: "",
-            price: ""
+            auctionDate: defaultValues.auctionDate,
+            name: defaultValues.name,
+            description: defaultValues.description,
+            price: defaultValues.price
         },
         onSubmit: async (values) => {
             try {
                 const imageNames = (images.length > 0 && await saveImageInDB()) || []
-                await createNewProduct({ ...values, onGoingPrice: values.price, image: imageNames })
-                setImages([])
-                formik.resetForm()
+                if (formMode === 'edit') {
+                    const response = await editProduct(productToEdit._id, { ...values, onGoingPrice: values.price, image: [...imageNames, ...productToEdit.image] })
+                    console.log('aq tu movida')
+                    setProducts((prev) => [response.data, ...prev,])
+
+                } else {
+                    const product = await createNewProduct({ ...values, onGoingPrice: values.price, image: imageNames })
+                    setProducts((prev) => [...prev, product.data])
+                    setImages([])
+                    formik.resetForm()
+                }
             } catch (err) {
                 console.log(err)
             }
@@ -113,15 +132,32 @@ const NewProductForm = () => {
             />
         </Button>
         {
-            !isEmpty(images) && <div className='attachments'>{
-                images.map((image, index) => {
+            <div className='attachments'>{
+                !isEmpty(images) && images.map((image, index) => {
 
                     return <div className='attachment'>
                         <RemoveCircleIcon onClick={() => cancelImage(index)} />
                         <img src={URL.createObjectURL(image)} alt=" " />
                     </div>
                 })
-            }</div>
+
+            }
+                {!isEmpty(productToEdit) && productToEdit.image.map((img, index) => {
+                    return <div className='attachment'>
+                        <RemoveCircleIcon onClick={() => {
+                            setProductToEdit((prev) => {
+                                const filteredImages = productToEdit.image.filter((img, i) => i !== index)
+                                return {
+                                    ...prev,
+                                    image: filteredImages
+                                }
+                            })
+                        }} />
+                        <img src={img} alt=" " />
+                    </div>
+                })}
+
+            </div>
         }
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker

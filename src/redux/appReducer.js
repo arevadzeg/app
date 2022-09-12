@@ -2,6 +2,7 @@ const INIT_STATE = {
     user: null,
     search: "",
     sort: "default",
+    globalModal: {},
 };
 
 const appReducer = (state = INIT_STATE, action) => {
@@ -24,6 +25,13 @@ const appReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 sort: action.payload,
+            }
+        }
+
+        case "SET_GLOBAL_MODAL": {
+            return {
+                ...state,
+                globalModal: action.payload
             }
         }
 

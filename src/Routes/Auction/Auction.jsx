@@ -40,6 +40,7 @@ const Auction = () => {
         }
     }, [search, sort])
 
+
     return <div className="auction">
 
         <div className='auction-header'>
@@ -67,7 +68,7 @@ const Auction = () => {
         </div>
 
 
-        <Pagination count={totalPages} variant="outlined" onChange={(e) => setPage(e.target.textContent)} />
+        <Pagination count={totalPages} variant="outlined" className='pagination' onChange={(e) => setPage(e.target.textContent)} />
 
     </div>
 }

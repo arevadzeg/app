@@ -18,7 +18,7 @@ const Header = () => {
 
         {user && user.role === 'admin' &&
             <Button variant='contained' onClick={() => navigate('/admin')}>
-                Add product</Button>
+                Admin Dashboard</Button>
         }
 
     </header>

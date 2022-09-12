@@ -19,3 +19,10 @@ export const setSort = (payload) => {
         payload: payload
     };
 };
+
+export const setGlobalModal = (payload) => {
+    return {
+        type: "SET_GLOBAL_MODAL",
+        payload: payload
+    }
+}

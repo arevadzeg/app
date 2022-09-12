@@ -57,10 +57,26 @@ export const getSingleProduct = (id) => {
 }
 
 export const bidOnProduct = (id, data) => {
-    console.log(id, data)
     try {
         return axiosInstance.post(`product/bid/${id}`, data)
     } catch (err) {
 
+    }
+}
+
+
+export const deleteProduct = (id) => {
+    try {
+        return axiosInstance.delete(`product/${id}`)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const editProduct = (id, data) => {
+    try {
+        return axiosInstance.put(`product/${id}`, data)
+    } catch (err) {
+        console.log(err)
     }
 }
