@@ -46,6 +46,12 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
+        flex-wrap: wrap;
+        align-items: center;
+
+        >h2 {
+            margin-right: 25px;
+        }
     }
 
 }
