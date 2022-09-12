@@ -8,5 +8,11 @@
 
     img {
         width: 150px;
+        cursor: pointer;
+    }
+
+    .header_right {
+        display: flex;
+        gap: 25px;
     }
 }

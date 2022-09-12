@@ -52,7 +52,7 @@ const LoginPage = () => {
         <form className="login_form center">
             {error && <p className='error'>{error}</p>}
             <TextField variant="standard"
-                className='textFiled'
+                className='textField'
                 label='Username'
                 error={Boolean(formik.errors.username)}
                 helperText={formik.errors.username}
@@ -60,7 +60,7 @@ const LoginPage = () => {
                 value={formik.values.username}
                 onChange={formik.handleChange} />
             <TextField variant="standard" label='Password'
-                className='textFiled'
+                className='textField'
                 error={Boolean(formik.errors.password)}
                 helperText={formik.errors.password}
                 name='password'

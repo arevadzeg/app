@@ -27,25 +27,42 @@ select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
 }
 
-.textFiled.MuiInput-underline::after {
-    content: none !important;
-}
-
-.textFiled .MuiInputBase-root {
-    background-color: #fff;
-}
-
 select.MuiInput-underline::after {
     content: none !important;
 }
 
 
-.textFiled .MuiFormLabel-root.Mui-focused {
+.textField.MuiInput-underline::after {
+    content: none !important;
+}
+
+.textField .MuiInputBase-root {
+    background-color: #fff;
+}
+
+.textField .MuiFormLabel-root.Mui-focused {
     color: #000 !important;
+}
+
+.textField-white .MuiInputBase-root {
+    height: 36.5px;
+    color: #fff;
+    padding: 0 5px;
+    width: 25vw;
+
+    .MuiInputAdornment-root {
+        color: #fff;
+        cursor: pointer;
+    }
 }
 
 .button.MuiButtonBase-root.MuiButtonBase-root {
     background-color: #000;
+}
+
+.button_white.MuiButtonBase-root.MuiButtonBase-root {
+    color: #fff;
+    border-color: #fff;
 }
 
 .button.Mui-disabled {

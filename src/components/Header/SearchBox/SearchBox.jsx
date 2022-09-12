@@ -6,14 +6,20 @@ import './searchBox.scss'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../../redux/actions';
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchBox = () => {
     const [searchInput, setSearchInput] = useState("")
-
+    const location = useLocation()
+    const navigate = useNavigate()
+    console.log(location)
 
     const dispatch = useDispatch()
 
     const handleSearchClick = () => {
+        if (location.pathname !== '/auction') {
+            navigate('/auction?search=true')
+        }
         dispatch(setSearch(searchInput))
         setSearchInput("")
     }
@@ -22,6 +28,7 @@ const SearchBox = () => {
     return <>
         <TextField
             variant="outlined"
+            className='textField-white'
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             InputProps={{

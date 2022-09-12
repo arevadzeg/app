@@ -27,7 +27,7 @@ const ProductPage = () => {
     const ownerIsTheHighestBidder = useMemo(() => product?.bidHistory[0]?.bidder === user?.username, [product, user])
 
     const handleBid = async () => {
-        const prevBid = product.bidHistory[0]?.bid || Infinity
+        const prevBid = product.bidHistory[0]?.bid || 0
         if ((bidAmount > prevBid) && !ownerIsTheHighestBidder) {
             const newPrice = product.onGoingPrice + bidAmount
             const newBidHistoryEntry = { bidder: user.username, price: newPrice, bid: bidAmount }
@@ -85,13 +85,17 @@ const ProductPage = () => {
                                 <div className='bid_info-history' onClick={() => handleModalOpen()}>
                                     [ {product.bidHistory.length} Bids] Bidding History
                                 </div>
-                                <Tooltip title="Bid should higher than previous bid" placement="top-end">
+                                <Tooltip title={<>
+                                    <p>1.Bid should higher than previous bid </p>
+                                    <p>2.You can not bid if you are the previous highest bidder </p>
+                                </>}
+                                    placement="top-end">
                                     <div className='bid_info-tooltip'>
                                         <QuestionMarkSVG />
                                     </div>
                                 </Tooltip>
                                 <TextField
-                                    className='product_bid-input textFiled'
+                                    className='product_bid-input textField'
                                     error={Boolean(bidError)}
                                     helperText={bidError}
                                     variant='outlined'

@@ -1,8 +1,8 @@
 import './Auction.scss'
 import Pagination from '@mui/material/Pagination';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getAllProducts } from '../../api/uploadFile';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sort from '../../components/Sort/Sort';
 
@@ -14,11 +14,19 @@ const Auction = () => {
     const [page, setPage] = useState(1)
     const [initialRender, setInitialRender] = useState(true)
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchFire = useMemo(() => Boolean(searchParams.get('search')), [searchParams])
+
+
+    console.log('kkk', searchParams.get('search'))
+
     useEffect(() => {
-        getAllProducts(page).then((res) => {
-            setTotalPages(res.data.pages)
-            setProducts(res.data.products)
-        })
+        if (!searchFire) {
+            getAllProducts(page).then((res) => {
+                setTotalPages(res.data.pages)
+                setProducts(res.data.products)
+            })
+        }
     }, [page])
 
 
@@ -35,7 +43,7 @@ const Auction = () => {
     }
 
     useEffect(() => {
-        if (!initialRender) {
+        if (!initialRender || searchFire) {
             handleSearchSort()
         }
     }, [search, sort])
