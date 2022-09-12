@@ -21,7 +21,6 @@ const SearchBox = () => {
             navigate('/auction?search=true')
         }
         dispatch(setSearch(searchInput))
-        setSearchInput("")
     }
 
 
@@ -29,6 +28,7 @@ const SearchBox = () => {
         <TextField
             variant="outlined"
             className='textField-white'
+            placeholder='Search'
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             InputProps={{

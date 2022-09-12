@@ -23,8 +23,8 @@ const Sort = () => {
             onChange={(e) => handleSortChange(e)}
         >
             <MenuItem value={'default'}>Relevance</MenuItem>
-            <MenuItem value={'asc'}>asc by price</MenuItem>
-            <MenuItem value={'desc'}>desc by price</MenuItem>
+            <MenuItem value={'asc'}>Price: Low to high</MenuItem>
+            <MenuItem value={'desc'}>Price High to low</MenuItem>
         </Select >
     </>
 }

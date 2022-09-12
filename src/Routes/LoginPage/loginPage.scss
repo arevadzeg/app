@@ -11,28 +11,50 @@
         gap: 24px;
         flex-direction: column;
         width: 400px;
+
+        @media screen and (max-width:528px) {
+            width: 70vw;
+        }
     }
 
 
     .login_page-background {
         display: flex;
-        height: calc(100vh - 80px);
+        height: calc(100vh - 82.5px);
         filter: brightness(0.7);
 
         >div {
             width: 30%;
             background-color: #000;
             color: #fff;
+            padding: 2vw;
+
 
             h3 {
                 font-size: 48px;
-                margin-top: 55%;
+                margin-top: 25%;
             }
 
             p {
                 font-size: 20px;
             }
+
+            @media screen and (max-width:1130px) {
+                h3 {
+                    font-size: 35px;
+                }
+
+                p {
+                    font-size: 18px;
+                }
+            }
+
+            @media screen and (max-width:830px) {
+                display: none;
+            }
         }
+
+
 
         .login_page-video {
             width: 70%;

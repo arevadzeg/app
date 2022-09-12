@@ -11,4 +11,24 @@
         border-color: rgb(196, 0, 0) !important;
         background-color: #fff !important;
     }
+
+    .admin_header {
+        padding: 45px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 25px;
+
+        >h2 {
+            margin: 0;
+        }
+    }
+
+
+
+    @media screen and (max-width:768px) {
+        .table_id {
+            display: none;
+        }
+    }
 }

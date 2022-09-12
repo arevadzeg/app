@@ -55,19 +55,22 @@ const Admin = () => {
     console.log(products)
 
     return <div className='admin'>
-        <div>
+        <div className='admin_header'>
+            <h2>
+                Welcome to <strong>Admin</strong> dashboard
+            </h2>
 
             <Button className='button' variant='contained' onClick={() => setModalOpen('new')}>
                 Add new product
             </Button>
         </div>
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table >
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell >Price</TableCell>
-                        <TableCell >id</TableCell>
+                        <TableCell className='table_id'>id</TableCell>
                         <TableCell >Edit</TableCell>
                         <TableCell >Delete</TableCell>
                     </TableRow>
@@ -79,7 +82,7 @@ const Admin = () => {
                                 {product.name}
                             </TableCell>
                             <TableCell >{product.onGoingPrice}</TableCell>
-                            <TableCell >{product._id}</TableCell>
+                            <TableCell className='table_id'>{product._id}</TableCell>
                             <TableCell >
                                 <Button className='edit-button' onClick={() => handleEditProduct(product._id)} variant='outlined' startIcon={<EditIcon />}>
                                     Edit

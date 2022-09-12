@@ -7,6 +7,8 @@
     padding: 35px;
     background-color: #fff;
     border-radius: 8px;
+    max-height: 84vh;
+    overflow-y: auto;
 
     .MuiInputBase-multiline textarea {
         min-height: 120px;
