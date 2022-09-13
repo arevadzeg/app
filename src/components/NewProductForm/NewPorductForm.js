@@ -135,7 +135,7 @@ const NewProductForm = ({ formMode, productToEdit, setProducts, setProductToEdit
             <div className='attachments'>{
                 !isEmpty(images) && images.map((image, index) => {
 
-                    return <div className='attachment'>
+                    return <div className='attachment' key={index}>
                         <RemoveCircleIcon onClick={() => cancelImage(index)} />
                         <img src={URL.createObjectURL(image)} alt=" " />
                     </div>
@@ -143,7 +143,7 @@ const NewProductForm = ({ formMode, productToEdit, setProducts, setProductToEdit
 
             }
                 {!isEmpty(productToEdit) && productToEdit.image.map((img, index) => {
-                    return <div className='attachment'>
+                    return <div className='attachment' key={index}>
                         <RemoveCircleIcon onClick={() => {
                             setProductToEdit((prev) => {
                                 const filteredImages = productToEdit.image.filter((img, i) => i !== index)

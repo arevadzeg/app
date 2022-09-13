@@ -18,8 +18,8 @@ const useBidHistory = (bidHistory) => {
                     <span>Username</span>
                     <span>Bid</span>
                 </div>
-                {bidHistory && bidHistory.map((entry) => {
-                    return <div className="bid_history-body">
+                {bidHistory && bidHistory.map((entry, index) => {
+                    return <div className="bid_history-body" key={index}>
                         <div className="bid_history-price" >{entry.price}$</div>
                         <div className="bid_history-userName">{entry.bidder}</div>
                         <div className="bid_history-bid">{entry.bid}$</div>

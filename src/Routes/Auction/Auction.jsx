@@ -60,8 +60,8 @@ const Auction = () => {
 
             {
                 products.map((product, i) => {
-                    return <Link to={`${product._id}`}>
-                        <div className="auction_item" key={i}>
+                    return <Link to={`${product._id}`} key={i}>
+                        <div className="auction_item">
                             <img src={product.image[0] || 'noImage.png'} alt=' ' />
                             <div className='auction_item-info'>
                                 <span>{product.name}</span>
