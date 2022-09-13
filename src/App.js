@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { verifyToken } from "./api/authApi";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/actions";
+import AutoBid from "./Routes/AutoBid/Autobid";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
         <Route path='/auction' exact element={<Auction />} />
         <Route path='/auction/:id' element={<ProductPage />} />
         <Route path='/admin' element={<Admin />} />
+        <Route path='/autobid' element={<AutoBid />} />
       </Routes>
     </div>
   );

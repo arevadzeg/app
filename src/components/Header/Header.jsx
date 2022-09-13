@@ -24,9 +24,11 @@ const Header = () => {
             {
                 user && <SearchBox />
             }
-            {user && user.role === 'admin' &&
+            {user && user.role === 'admin' ?
                 <Button variant='outlined' className='button_white' onClick={() => navigate('/admin')}>
-                    Admin Dashboard</Button>
+                    Admin Dashboard</Button> :
+                <Button variant='outlined' className='button_white' onClick={() => navigate('/autobid')}>
+                    Configure auto-bid</Button>
             }
             {
                 user && <Button variant='outlined' onClick={handleLogOut} className='button_white' >
