@@ -75,6 +75,8 @@ select:-webkit-autofill:focus {
     padding: 40px;
     width: 500px;
     border-radius: 8px;
+    max-height: 600px;
+    overflow: auto;
 
     .bid_history-header {
         display: flex;

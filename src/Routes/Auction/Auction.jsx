@@ -2,10 +2,11 @@ import './Auction.scss'
 import Pagination from '@mui/material/Pagination';
 import { useEffect, useState, useMemo } from 'react';
 import { getAllProducts } from '../../api/uploadFile';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sort from '../../components/Sort/Sort';
 import { Button } from '@mui/material';
+import { isEmpty } from 'lodash'
 
 
 const Auction = () => {
@@ -18,8 +19,6 @@ const Auction = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const searchFire = useMemo(() => Boolean(searchParams.get('search')), [searchParams])
 
-
-    console.log('kkk', searchParams.get('search'))
 
     useEffect(() => {
         if (!searchFire) {
@@ -52,12 +51,12 @@ const Auction = () => {
 
     return <div className="auction">
 
-        <div className='auction-header'>
+        {!isEmpty(products) && <div className='auction-header'>
             <h2>Upcoming auctions</h2>
             <Sort />
-        </div>
-        <div className="auction_items-wrapper">
+        </div>}
 
+        <div className="auction_items-wrapper">
             {
                 products.map((product, i) => {
                     return <Link to={`${product._id}`} key={i}>
@@ -74,18 +73,19 @@ const Auction = () => {
                                     <Button className='button'>
                                         bid now
                                     </Button>
-
                                 </div>
                             </div>
                         </div>
                     </Link>
                 })
             }
-
         </div>
 
+        {
+            !initialRender && isEmpty(products) && <div><img src='./notFound.png' alt=' ' className='auction_not-found center' /></div>
+        }
 
-        <Pagination count={totalPages} variant="outlined" className='pagination' onChange={(e) => setPage(e.target.textContent)} />
+        {!isEmpty(products) && <Pagination count={totalPages} variant="outlined" className='pagination' onChange={(e) => setPage(e.target.textContent)} />}
 
     </div>
 }

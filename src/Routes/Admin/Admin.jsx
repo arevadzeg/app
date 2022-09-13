@@ -21,14 +21,11 @@ const Admin = () => {
     const { fireAlert, Alert } = useAlert()
     const dispatch = useDispatch()
 
-
     const handleGetAllProducts = async () => {
         const products = await getAllProducts(page)
         setProducts(products.data.products)
         setTotalPages(products.data.pages)
     }
-
-
 
     const handleDeleteProduct = (data) => {
         deleteProduct(data.id).then((res) => {
@@ -52,7 +49,6 @@ const Admin = () => {
         setModalOpen('edit')
     }
 
-    console.log(products)
 
     return <div className='admin'>
         <div className='admin_header'>

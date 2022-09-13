@@ -25,8 +25,6 @@ const NewProductForm = ({ formMode, productToEdit, setProducts, setProductToEdit
         }
     }, [formMode, productToEdit])
 
-    console.log('ffffffffffff', editProduct, productToEdit)
-
     const formik = useFormik({
         initialValues: {
             auctionDate: defaultValues.auctionDate,

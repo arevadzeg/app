@@ -29,7 +29,7 @@ const ProductPage = () => {
     const handleBid = async () => {
         const prevBid = product.bidHistory[0]?.bid || 0
         if ((bidAmount > prevBid) && !ownerIsTheHighestBidder) {
-            const newPrice = product.onGoingPrice + bidAmount
+            const newPrice = Number(product.onGoingPrice) + Number(bidAmount)
             const newBidHistoryEntry = { bidder: user.username, price: newPrice, bid: bidAmount }
             const newBidHistory = [newBidHistoryEntry, ...product.bidHistory]
             await bidOnProduct(id, { onGoingPrice: newPrice, bidHistory: newBidHistoryEntry })
@@ -40,8 +40,6 @@ const ProductPage = () => {
             setBidError('Bid amount should be more than previous bid')
         }
     }
-
-
 
     useEffect(() => {
         getSingleProduct(id)
@@ -112,11 +110,8 @@ const ProductPage = () => {
                         </div>
                     </div>
                     {BidHistoryModal}
-
                 </>
         }
-
-
     </div>
 }
 
