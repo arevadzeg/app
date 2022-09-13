@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header";
 import LoginPage from "./Routes/LoginPage/LoginPage";
 import Auction from "./Routes/Auction/Auction";
@@ -13,9 +13,13 @@ function App() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     verifyToken().then((res) => {
+      if (location.pathname === '/') {
+        navigate('/auction')
+      }
       dispatch(setUser(res.data))
     }).catch((err) => {
       localStorage.clear()

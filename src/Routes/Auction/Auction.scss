@@ -26,6 +26,18 @@
 
     .auction_item-info {
         padding: 20px;
+
+        >span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+    }
+
+    .auction_item-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
     }
 }
 

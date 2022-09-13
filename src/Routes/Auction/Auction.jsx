@@ -5,6 +5,7 @@ import { getAllProducts } from '../../api/uploadFile';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sort from '../../components/Sort/Sort';
+import { Button } from '@mui/material';
 
 
 const Auction = () => {
@@ -67,6 +68,14 @@ const Auction = () => {
                                 <p>
                                     {product.description}
                                 </p>
+                                <div className='auction_item-price'><div>
+                                    Current price: {product.onGoingPrice}$
+                                </div>
+                                    <Button className='button'>
+                                        bid now
+                                    </Button>
+
+                                </div>
                             </div>
                         </div>
                     </Link>
