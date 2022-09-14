@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { bidOnProduct, getSingleProduct } from '../../api/uploadFile'
+import { bidOnProduct, getSingleProduct } from '../../api/productsApi'
 import { isEmpty } from 'lodash'
 import './productPage.scss'
-import { Button, CircularProgress, TextField, Tooltip } from '@mui/material'
+import { Button, Checkbox, CircularProgress, FormControlLabel, TextField, Tooltip } from '@mui/material'
 import GavelIcon from '@mui/icons-material/Gavel';
 import useCountDown from '../../hooks/useCountDown'
 import QuestionMarkSVG from '../../assets/QuestionMarkSVG'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useMemo } from 'react'
 import useBidHistory from '../../hooks/useBidHistory'
+import { setAutoBid } from '../../redux/actions'
+import { createAutoBid } from '../../api/autoBid'
 
 const ProductPage = () => {
 
@@ -19,12 +21,25 @@ const ProductPage = () => {
     const [bidAmount, setBidAmount] = useState("")
     const [bidError, setBidError] = useState(null)
     let { id } = useParams();
-    const { user } = useSelector((data) => data)
+    const { user, autoBid } = useSelector((data) => data)
+    const dispatch = useDispatch()
     const {
         handleModalOpen,
         BidHistoryModal } = useBidHistory(product?.bidHistory)
 
     const ownerIsTheHighestBidder = useMemo(() => product?.bidHistory[0]?.bidder === user?.username, [product, user])
+
+    const handleTurnOnAutoBid = async () => {
+        let filteredProducts = []
+        if (autoBid.products.includes(id)) {
+            filteredProducts = autoBid.products.filter((product) => product !== id)
+            console.log(filteredProducts, autoBid)
+        } else { filteredProducts = [...autoBid.products, id] }
+        dispatch(setAutoBid({ ...autoBid, products: filteredProducts }))
+        try {
+            await createAutoBid({ products: filteredProducts })
+        } catch (err) { console.log(err) }
+    }
 
     const handleBid = async () => {
         const prevBid = product.bidHistory[0]?.bid || 0
@@ -104,6 +119,8 @@ const ProductPage = () => {
                                 />
                             </div>
                         </div>
+                        <FormControlLabel control={<Checkbox checked={autoBid.products.includes(id)} color="default" onClick={handleTurnOnAutoBid} />} label="Turn on auto-bid" />
+
                         <div className='product_description'>
                             <h4>Lot description</h4>
                             <p>{product.description}</p>

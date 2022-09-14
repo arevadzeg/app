@@ -7,8 +7,9 @@ import ProductPage from "./Routes/ProductPage/ProductPage";
 import { useEffect } from "react";
 import { verifyToken } from "./api/authApi";
 import { useDispatch } from "react-redux";
-import { setUser } from "./redux/actions";
+import { setAutoBid, setUser } from "./redux/actions";
 import AutoBid from "./Routes/AutoBid/Autobid";
+import { getAutoBid } from "./api/autoBid";
 
 function App() {
 
@@ -26,6 +27,10 @@ function App() {
       localStorage.clear()
       navigate('/')
     })
+
+    getAutoBid().then((res) => {
+      dispatch(setAutoBid(res.data))
+    }).catch(err => console.log(err))
   }, [])
 
 

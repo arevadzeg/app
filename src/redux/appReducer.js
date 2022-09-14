@@ -3,6 +3,11 @@ const INIT_STATE = {
     search: "",
     sort: "default",
     globalModal: {},
+    autoBid: {
+        bidAlertNotification: "",
+        maxAmount: "",
+        products: [],
+    }
 };
 
 const appReducer = (state = INIT_STATE, action) => {
@@ -32,6 +37,12 @@ const appReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 globalModal: action.payload
+            }
+        }
+        case "SET_AUTO_BID": {
+            return {
+                ...state,
+                autoBid: action.payload
             }
         }
 

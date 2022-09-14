@@ -5,7 +5,7 @@ import './admin.scss'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
-import { deleteProduct, getAllProducts } from '../../api/uploadFile';
+import { getAllProducts, deleteProduct } from '../../api/productsApi';
 import { useState } from 'react';
 import useAlert from '../../hooks/useAlert';
 import { useDispatch } from 'react-redux'

@@ -26,3 +26,11 @@ export const setGlobalModal = (payload) => {
         payload: payload
     }
 }
+
+
+export const setAutoBid = (payload) => {
+    return {
+        type: "SET_AUTO_BID",
+        payload: payload
+    }
+}

@@ -1,7 +1,7 @@
 import './Auction.scss'
 import Pagination from '@mui/material/Pagination';
 import { useEffect, useState, useMemo } from 'react';
-import { getAllProducts } from '../../api/uploadFile';
+import { getAllProducts } from '../../api/productsApi';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sort from '../../components/Sort/Sort';
