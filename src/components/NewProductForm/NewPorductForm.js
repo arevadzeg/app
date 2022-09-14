@@ -38,7 +38,11 @@ const NewProductForm = ({ formMode, productToEdit, setProducts, setProductToEdit
                 const imageNames = (images.length > 0 && await saveImageInDB()) || []
                 if (formMode === 'edit') {
                     const response = await editProduct(productToEdit._id, { ...values, onGoingPrice: values.price, image: [...imageNames, ...productToEdit.image] })
-                    setProducts((prev) => [response.data, ...prev,])
+                    setProducts((prev) => {
+                        const filteredProducts = prev.filter((product) => product._id !== productToEdit._id)
+                        return [response.data, ...filteredProducts,]
+                    }
+                    )
 
                 } else {
                     const product = await createNewProduct({ ...values, onGoingPrice: values.price, image: imageNames })
