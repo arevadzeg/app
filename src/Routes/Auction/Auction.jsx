@@ -37,7 +37,6 @@ const Auction = () => {
     }, [])
 
     const handleSearchSort = async () => {
-        console.log(page, search, sort)
         setPage(1)
         const { data } = await getAllProducts(1, search, sort)
         setProducts(data.products)

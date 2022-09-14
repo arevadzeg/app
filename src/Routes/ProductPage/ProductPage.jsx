@@ -33,7 +33,6 @@ const ProductPage = () => {
         let filteredProducts = []
         if (autoBid.products.includes(id)) {
             filteredProducts = autoBid.products.filter((product) => product !== id)
-            console.log(filteredProducts, autoBid)
         } else { filteredProducts = [...autoBid.products, id] }
         dispatch(setAutoBid({ ...autoBid, products: filteredProducts }))
         try {

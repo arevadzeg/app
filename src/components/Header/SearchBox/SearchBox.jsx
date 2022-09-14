@@ -12,7 +12,6 @@ const SearchBox = () => {
     const [searchInput, setSearchInput] = useState("")
     const location = useLocation()
     const navigate = useNavigate()
-    console.log(location)
 
     const dispatch = useDispatch()
 

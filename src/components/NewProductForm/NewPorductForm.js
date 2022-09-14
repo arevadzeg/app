@@ -38,7 +38,6 @@ const NewProductForm = ({ formMode, productToEdit, setProducts, setProductToEdit
                 const imageNames = (images.length > 0 && await saveImageInDB()) || []
                 if (formMode === 'edit') {
                     const response = await editProduct(productToEdit._id, { ...values, onGoingPrice: values.price, image: [...imageNames, ...productToEdit.image] })
-                    console.log('aq tu movida')
                     setProducts((prev) => [response.data, ...prev,])
 
                 } else {

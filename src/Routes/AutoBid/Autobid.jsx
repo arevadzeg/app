@@ -22,11 +22,9 @@ const AutoBid = () => {
             bidAlertNotification: ""
         },
         onSubmit: async (values) => {
-            console.log('asdasd')
             const res = await createAutoBid(formik.values)
             dispatch(setAutoBid(res.data))
             setOpenSnackBar(true)
-            console.log(res)
         },
         validationSchema: AutoBidSchema,
         validateOnBlur: false,
