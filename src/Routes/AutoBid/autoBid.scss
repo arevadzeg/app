@@ -5,7 +5,15 @@
         flex-direction: column;
         gap: 25px;
         width: 400px;
+
+        @media screen and (max-width:470px) {
+            width: 70vw
+        }
     }
 
     padding: 40px;
+
+    .MuiAlert-standard {
+        background-color: rgb(201 225 201);
+    }
 }

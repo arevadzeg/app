@@ -1,17 +1,20 @@
 
-import { Button, TextField } from '@mui/material'
+import { Alert, Button, Snackbar, TextField } from '@mui/material'
 import { useFormik } from 'formik'
-import { useState } from 'react'
 import './autoBid.scss'
 import { AutoBidSchema } from '../../validationSchemas/AutoBidSchema'
 import { createAutoBid, getAutoBid } from '../../api/autoBid'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setAutoBid } from '../../redux/actions'
+import { isEmpty } from 'lodash'
+import { useState } from 'react'
 
 const AutoBid = () => {
 
-
+    const [openSnackBar, setOpenSnackBar] = useState(false)
     const { autoBid } = useSelector((data) => data)
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -19,8 +22,11 @@ const AutoBid = () => {
             bidAlertNotification: ""
         },
         onSubmit: async (values) => {
+            console.log('asdasd')
             const res = await createAutoBid(formik.values)
-            console.log('zz', res)
+            dispatch(setAutoBid(res.data))
+            setOpenSnackBar(true)
+            console.log(res)
         },
         validationSchema: AutoBidSchema,
         validateOnBlur: false,
@@ -63,6 +69,14 @@ const AutoBid = () => {
             <Button className='button' onClick={formik.handleSubmit}>Submit</Button>
 
         </form>
+
+        {!isEmpty(autoBid) && <p>Auto-bid activated on {autoBid.products.length} products</p>}
+
+        <Snackbar open={openSnackBar} autoHideDuration={2600000} onClose={() => setOpenSnackBar(false)}>
+            <Alert onClose={() => setOpenSnackBar(false)} severity="success">
+                Updated successfully
+            </Alert>
+        </Snackbar>
     </div>
 
 }

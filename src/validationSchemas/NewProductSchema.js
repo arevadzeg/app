@@ -7,7 +7,7 @@ export const NewProductSchema = Yup.object().shape({
         .required('* name is required'),
     description: Yup.string()
         .min(2, '* description should include 10 or more characters')
-        .max(150, '* description too long')
+        .max(750, '* description too long')
         .required('* description is required'),
     price: Yup.number()
         .positive()

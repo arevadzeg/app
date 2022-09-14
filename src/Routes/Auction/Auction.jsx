@@ -22,7 +22,7 @@ const Auction = () => {
 
     useEffect(() => {
         if (!searchFire) {
-            getAllProducts(page).then((res) => {
+            getAllProducts(page, search, sort).then((res) => {
                 setTotalPages(res.data.pages)
                 setProducts(res.data.products)
             })
@@ -32,14 +32,16 @@ const Auction = () => {
 
     const { search, sort } = useSelector((data) => data)
 
-    useEffect(() => setInitialRender(false), [])
+    useEffect(() => {
+        setTimeout(() => { setInitialRender(false) }, [300])
+    }, [])
 
     const handleSearchSort = async () => {
         console.log(page, search, sort)
-        const { data } = await getAllProducts(page, search, sort)
+        setPage(1)
+        const { data } = await getAllProducts(1, search, sort)
         setProducts(data.products)
         setTotalPages(data.pages)
-        setPage(1)
     }
 
     useEffect(() => {
@@ -47,6 +49,9 @@ const Auction = () => {
             handleSearchSort()
         }
     }, [search, sort])
+
+
+    console.log(page)
 
 
     return <div className="auction">
@@ -59,7 +64,7 @@ const Auction = () => {
         <div className="auction_items-wrapper">
             {
                 products.map((product, i) => {
-                    return <Link to={`${product._id}`} key={i}>
+                    return <Link to={`${product._id}`} className={`${!product.active ? "auction_item-sold" : ""}`} key={i}>
                         <div className="auction_item">
                             <img src={product.image[0] || 'noImage.png'} alt=' ' />
                             <div className='auction_item-info'>
@@ -85,7 +90,7 @@ const Auction = () => {
             !initialRender && isEmpty(products) && <div><img src='./notFound.png' alt=' ' className='auction_not-found center' /></div>
         }
 
-        {!isEmpty(products) && <Pagination count={totalPages} variant="outlined" className='pagination' onChange={(e) => setPage(e.target.textContent)} />}
+        {!isEmpty(products) && <Pagination count={totalPages} variant="outlined" className='pagination' page={Number(page)} onChange={(e) => setPage(e.target.textContent)} />}
 
     </div>
 }

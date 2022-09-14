@@ -41,6 +41,23 @@
     }
 }
 
+.auction_item-sold {
+    pointer-events: none;
+    opacity: 0.7;
+    position: relative;
+
+    &::after {
+        content: "Auction closed";
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        font-size: 23px;
+        transform: translate(50%, -100%) rotate(45deg);
+        z-index: 4444;
+        font-weight: bold;
+    }
+}
+
 .auction_items-wrapper {
     display: grid;
     column-gap: 3%;
