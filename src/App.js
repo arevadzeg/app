@@ -23,6 +23,9 @@ function App() {
         navigate('/auction')
       }
       dispatch(setUser(res.data))
+      if (location.pathname === '/admin' && res.data.role === 'user') {
+        navigate('/auction')
+      }
     }).catch((err) => {
       localStorage.clear()
       navigate('/')
