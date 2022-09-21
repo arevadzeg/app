@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SearchBox from './SearchBox/SearchBox';
 import { setUser } from '../../redux/actions';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 
 const Header = () => {
@@ -24,11 +25,18 @@ const Header = () => {
             {
                 user && <SearchBox />
             }
-            {user && user.role === 'admin' ?
+            {user && (user.role === 'admin' ?
                 <Button variant='outlined' className='button_white' onClick={() => navigate('/admin')}>
                     Admin Dashboard</Button> :
-                <Button variant='outlined' className='button_white' onClick={() => navigate('/autobid')}>
-                    Configure auto-bid</Button>
+                <>
+                    <Button variant='outlined' className='button_white' onClick={() => navigate('/autobid')}>
+                        Configure auto-bid
+                    </Button>
+                    <Button variant='outlined' startIcon={<AccountBoxIcon />} className='button_white' onClick={() => navigate('/profile')}>
+                        Profile
+                    </Button>
+                </>
+            )
             }
             {
                 user && <Button variant='outlined' onClick={handleLogOut} className='button_white' >

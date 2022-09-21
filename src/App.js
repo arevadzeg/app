@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setAutoBid, setUser } from "./redux/actions";
 import AutoBid from "./Routes/AutoBid/Autobid";
 import { getAutoBid } from "./api/autoBid";
+import Profile from "./Routes/Profile/Profile";
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
         <Route path='/auction/:id' element={<ProductPage />} />
         <Route path='/admin' element={<Admin />} />
         <Route path='/autobid' element={<AutoBid />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </div>
   );
