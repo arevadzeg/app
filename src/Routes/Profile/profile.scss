@@ -1,0 +1,32 @@
+.profile {
+
+
+
+
+    .product-status {
+        width: fit-content;
+        border-radius: 6px;
+        padding: 5px;
+        margin-left: auto;
+    }
+
+    .in-progress {
+        background-color: #ccc;
+    }
+
+    .won {
+        background-color: rgb(99, 250, 129);
+    }
+
+    .lost {
+        background-color: rgb(250, 99, 99);
+    }
+
+    .product_image {
+        height: 33px;
+    }
+
+    // .product_no-image {
+    //     height: 40px;
+    // }
+}
