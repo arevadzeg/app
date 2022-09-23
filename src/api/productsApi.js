@@ -30,6 +30,14 @@ export const getSingleProduct = (id) => {
     }
 }
 
+export const getProductBidHistory = (id) => {
+    try {
+        return axiosInstance.get(`product/bidhistory/${id}`)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export const bidOnProduct = (id, data) => {
     try {
         return axiosInstance.post(`product/bid/${id}`, data)

@@ -1,12 +1,16 @@
 import { useState, useMemo } from "react"
 import Modal from '@mui/material/Modal';
+import { getProductBidHistory } from "../api/productsApi";
 
 
 
-const useBidHistory = (bidHistory) => {
+const useBidHistory = () => {
     const [modalOpen, setModalOpen] = useState(false)
+    const [bidHistory, setBidHistory] = useState([])
 
-    const handleModalOpen = () => {
+    const handleModalOpen = async (id) => {
+        const bidHistory = await getProductBidHistory(id)
+        setBidHistory(bidHistory.data)
         setModalOpen(true)
     }
 

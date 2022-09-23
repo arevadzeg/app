@@ -17,9 +17,9 @@ const Profile = () => {
 
     const { user } = useSelector((data) => data)
     const navigate = useNavigate()
-    // const {
-    //     handleModalOpen,
-    //     BidHistoryModal } = useBidHistory(product?.bidHistory)
+    const {
+        handleModalOpen,
+        BidHistoryModal } = useBidHistory()
 
     console.log(user)
 
@@ -54,9 +54,9 @@ const Profile = () => {
                     {user && user.bidHistory.map((product, i) => (
                         <TableRow
                             key={i}
-                            onClick={() => navigate("/auction/" + product._id)}
+
                         >
-                            <TableCell component="th" scope="row">
+                            <TableCell component="th" scope="row" onClick={() => navigate("/auction/" + product._id)}>
                                 {product.name}
                             </TableCell>
                             <TableCell align="right">{product.image.length ?
@@ -68,7 +68,7 @@ const Profile = () => {
                             <TableCell align="right">{product.bidHistory[0].bidder}</TableCell>
                             <TableCell align="right">{product.onGoingPrice}</TableCell>
                             <TableCell align="right">
-                                <Button>
+                                <Button onClick={() => handleModalOpen(product._id)}>
                                     Bid history
                                 </Button>
                             </TableCell>
@@ -78,6 +78,7 @@ const Profile = () => {
                 </TableBody>
             </Table>
         </TableContainer>
+        {BidHistoryModal}
     </div>
 
 }

@@ -94,7 +94,7 @@ const ProductPage = () => {
                                 </div>
                             </div>
                             <div className='product_info-bottom'>
-                                <div className='bid_info-history' onClick={() => handleModalOpen()}>
+                                <div className='bid_info-history' onClick={() => handleModalOpen(product._id)}>
                                     [ {product.bidHistory.length} Bids] Bidding History
                                 </div>
                                 <Tooltip title={<>
