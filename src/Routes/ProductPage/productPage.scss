@@ -101,6 +101,8 @@
     }
 
 
+
+
     .product_bid-input {
 
         .MuiButtonBase-root {
@@ -137,4 +139,34 @@
             width: 70vw;
         }
     }
+}
+
+@keyframes demo {
+    0% {
+        color: rgb(0, 0, 0);
+    }
+
+    22% {
+        color: rgb(61, 112, 37);
+    }
+
+    60% {
+        color: rgb(57, 207, 95);
+    }
+
+    100% {
+        color: rgb(5, 34, 8);
+    }
+
+}
+
+.demo {
+    -webkit-animation-name: demo;
+    -webkit-animation-duration: 600ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-name: demo;
+    animation-duration: 900ms;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
 }

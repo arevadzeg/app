@@ -21,7 +21,6 @@ const Profile = () => {
         handleModalOpen,
         BidHistoryModal } = useBidHistory()
 
-    console.log(user)
 
     const checkStatus = (product) => {
         let status = 'in-progress'
@@ -39,15 +38,15 @@ const Profile = () => {
 
 
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table >
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell align="right">Image</TableCell>
-                        <TableCell align="right">Price&nbsp;(g)</TableCell>
-                        <TableCell align="right">Current bidder&nbsp;(g)</TableCell>
-                        <TableCell align="right">Price&nbsp;(g)</TableCell>
-                        <TableCell align="right">Status&nbsp;(g)</TableCell>
+                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Current bidder</TableCell>
+                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -56,7 +55,7 @@ const Profile = () => {
                             key={i}
 
                         >
-                            <TableCell component="th" scope="row" onClick={() => navigate("/auction/" + product._id)}>
+                            <TableCell component="th" scope="row" className='product_name' onClick={() => navigate("/auction/" + product._id)}>
                                 {product.name}
                             </TableCell>
                             <TableCell align="right">{product.image.length ?
@@ -68,7 +67,7 @@ const Profile = () => {
                             <TableCell align="right">{product.bidHistory[0].bidder}</TableCell>
                             <TableCell align="right">{product.onGoingPrice}</TableCell>
                             <TableCell align="right">
-                                <Button onClick={() => handleModalOpen(product._id)}>
+                                <Button onClick={() => handleModalOpen(product._id)} className='button'>
                                     Bid history
                                 </Button>
                             </TableCell>

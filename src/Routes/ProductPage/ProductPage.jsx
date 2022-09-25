@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { bidOnProduct, getSingleProduct } from '../../api/productsApi'
 import { isEmpty } from 'lodash'
@@ -12,6 +12,8 @@ import { useMemo } from 'react'
 import useBidHistory from '../../hooks/useBidHistory'
 import { setAutoBid } from '../../redux/actions'
 import { createAutoBid } from '../../api/autoBid'
+import socket from '../../services/socket'
+import { useRef } from 'react'
 
 const ProductPage = () => {
 
@@ -23,37 +25,58 @@ const ProductPage = () => {
     let { id } = useParams();
     const { user, autoBid } = useSelector((data) => data)
     const dispatch = useDispatch()
-    const {
-        handleModalOpen,
-        BidHistoryModal } = useBidHistory(product?.bidHistory)
+    const { handleModalOpen, BidHistoryModal } = useBidHistory(product?.bidHistory)
+    const priceRef = useRef(null)
+
+    useEffect(() => {
+
+        socket.emit('joinRoom', id)
+        socket.on('bidPlaced', (res) => {
+            if (priceRef.current) {
+                priceRef.current.className = 'demo'
+                setTimeout(() => {
+                    priceRef.current.className = ''
+                }, 600);
+            }
+            setProduct((prev) => { return { ...prev, onGoingPrice: res.newPrice, bidHistory: res.newBidHistory } })
+        })
+        return () => {
+            socket.off('joinRoom');
+            socket.off('bidPlaced');
+        }
+    }, [])
 
     const ownerIsTheHighestBidder = useMemo(() => product?.bidHistory[0]?.bidder === user?.username, [product, user])
 
-    const handleTurnOnAutoBid = async () => {
-        let filteredProducts = []
-        if (autoBid.products.includes(id)) {
-            filteredProducts = autoBid.products.filter((product) => product !== id)
-        } else { filteredProducts = [...autoBid.products, id] }
-        dispatch(setAutoBid({ ...autoBid, products: filteredProducts }))
-        try {
-            await createAutoBid({ products: filteredProducts })
-        } catch (err) { console.log(err) }
-    }
+    const handleTurnOnAutoBid = useCallback(
+        async () => {
+            let filteredProducts = []
+            if (autoBid.products.includes(id)) {
+                filteredProducts = autoBid.products.filter((product) => product !== id)
+            } else { filteredProducts = [...autoBid.products, id] }
+            dispatch(setAutoBid({ ...autoBid, products: filteredProducts }))
+            try {
+                await createAutoBid({ products: filteredProducts })
+            } catch (err) { console.log(err) }
+        },
+        [autoBid, dispatch, id],
+    )
 
-    const handleBid = async () => {
-        const prevBid = product.bidHistory[0]?.bid || 0
-        if ((bidAmount > prevBid) && !ownerIsTheHighestBidder) {
-            const newPrice = Number(product.onGoingPrice) + Number(bidAmount)
-            const newBidHistoryEntry = { bidder: user.username, price: newPrice, bid: bidAmount }
-            const newBidHistory = [newBidHistoryEntry, ...product.bidHistory]
-            await bidOnProduct(id, { onGoingPrice: newPrice, bidHistory: newBidHistoryEntry })
-            setProduct((prev) => { return { ...prev, onGoingPrice: newPrice, bidHistory: newBidHistory } })
-            setBidAmount("")
-            setBidError("")
-        } else {
-            setBidError('Bid amount should be more than previous bid')
-        }
-    }
+    const handleBid = useCallback(
+        async () => {
+            const prevBid = product.bidHistory[0]?.bid || 0
+            if ((bidAmount > prevBid) && !ownerIsTheHighestBidder) {
+                const newPrice = Number(product.onGoingPrice) + Number(bidAmount)
+                const newBidHistoryEntry = { bidder: user.username, price: newPrice, bid: bidAmount }
+                await bidOnProduct(id, { onGoingPrice: newPrice, bidHistory: newBidHistoryEntry })
+                setBidAmount("")
+                setBidError("")
+            } else {
+                setBidError('Bid amount should be more than previous bid')
+            }
+        },
+        [bidAmount, id, ownerIsTheHighestBidder, product, user]
+    )
 
     useEffect(() => {
         getSingleProduct(id)
@@ -71,7 +94,7 @@ const ProductPage = () => {
                 :
                 <>
                     <div className='product_gallery'>
-                        <img src={product.image[selectedImage]} alt=' ' className='product_image-selected' />
+                        <img src={product?.image[selectedImage]} alt=' ' className='product_image-selected' />
                         <div className='product_gallery'>
                             {
                                 !isEmpty(product.image) && product.image.map((img, i) => {
@@ -86,7 +109,7 @@ const ProductPage = () => {
                             <div className='product_info-top'>
                                 <div className='product_info-price'>
                                     <span>{product.name}</span>
-                                    <h4>{product.onGoingPrice}$</h4>
+                                    <h4 ref={priceRef}>{product.onGoingPrice}$</h4>
                                 </div>
                                 <div className='product_info-countdown'>
                                     <b>Ends in</b>
