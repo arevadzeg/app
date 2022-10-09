@@ -29,7 +29,6 @@ const ProductPage = () => {
     const priceRef = useRef(null)
 
     useEffect(() => {
-
         socket.emit('joinRoom', id)
         socket.on('bidPlaced', (res) => {
             if (priceRef.current) {
@@ -85,7 +84,15 @@ const ProductPage = () => {
             .finally(() => setLoading(false))
     }, [id])
 
+
     const countDown = useCountDown(new Date(product?.auctionDate))
+
+    useEffect(() => {
+        if (countDown.seconds < 0) {
+            setProduct((prev) => { return { ...prev, active: false } })
+        }
+
+    }, [countDown])
 
     return <div className='product-wrapper'>
         {
@@ -94,7 +101,7 @@ const ProductPage = () => {
                 :
                 <>
                     <div className='product_gallery'>
-                        <img src={product?.image[selectedImage]} alt=' ' className='product_image-selected' />
+                        <img src={product?.image[selectedImage] || 'http://localhost:3000/noImage.png'} alt=' ' className='product_image-selected' />
                         <div className='product_gallery'>
                             {
                                 !isEmpty(product.image) && product.image.map((img, i) => {
@@ -109,40 +116,63 @@ const ProductPage = () => {
                             <div className='product_info-top'>
                                 <div className='product_info-price'>
                                     <span>{product.name}</span>
-                                    <h4 ref={priceRef}>{product.onGoingPrice}$</h4>
+                                    {
+                                        product.active ?
+                                            <h4 ref={priceRef}>{product.onGoingPrice}$</h4>
+                                            :
+                                            <p>
+                                                {
+                                                    product.bidHistory.length > 0 ? <div>
+                                                        <h3>Sold for {product.bidHistory[0].price} $</h3>
+                                                        <h4>Winner {product.bidHistory[0].bidder} </h4>
+                                                    </div>
+                                                        : "No bid placed"
+                                                }
+                                            </p>
+                                    }
                                 </div>
-                                <div className='product_info-countdown'>
+                                {product.active && <div className='product_info-countdown'>
                                     <b>Ends in</b>
                                     <span>{countDown.days}d : {countDown.hours}h : {countDown.seconds}s</span>
-                                </div>
+                                </div>}
                             </div>
                             <div className='product_info-bottom'>
                                 <div className='bid_info-history' onClick={() => handleModalOpen(product._id)}>
                                     [ {product.bidHistory.length} Bids] Bidding History
                                 </div>
-                                <Tooltip title={<>
-                                    <p>1.Bid should higher than previous bid </p>
-                                    <p>2.You can not bid if you are the previous highest bidder </p>
-                                </>}
-                                    placement="top-end">
-                                    <div className='bid_info-tooltip'>
-                                        <QuestionMarkSVG />
-                                    </div>
-                                </Tooltip>
-                                <TextField
-                                    className='product_bid-input textField'
-                                    error={Boolean(bidError)}
-                                    helperText={bidError}
-                                    variant='outlined'
-                                    value={bidAmount}
-                                    onKeyDown={(e) => e.key === 'Backspace' ? {} : isNaN(Number(e.key)) ? e.preventDefault() : {}}
-                                    onChange={(e) => setBidAmount(e.target.value)}
-                                    InputProps={{ endAdornment: <Button onClick={handleBid} disabled={ownerIsTheHighestBidder} className='button' variant='contained' disableElevation startIcon={<GavelIcon />}>Bid</Button> }}
-                                />
+                                {product.active &&
+                                    <Tooltip title={<>
+                                        <p>1.Bid should higher than previous bid </p>
+                                        <p>2.You can not bid if you are the previous highest bidder </p>
+                                    </>}
+                                        placement="top-end">
+                                        <div className='bid_info-tooltip'>
+                                            <QuestionMarkSVG />
+                                        </div>
+                                    </Tooltip>}
+                                {
+                                    product.active &&
+                                    <TextField
+                                        className='product_bid-input textField'
+                                        error={Boolean(bidError)}
+                                        helperText={bidError}
+                                        variant='outlined'
+                                        value={bidAmount}
+                                        onKeyDown={(e) => e.key === 'Backspace' ? {} : isNaN(Number(e.key)) ? e.preventDefault() : {}}
+                                        onChange={(e) => setBidAmount(e.target.value)}
+                                        InputProps={{ endAdornment: <Button onClick={handleBid} disabled={ownerIsTheHighestBidder} className='button' variant='contained' disableElevation startIcon={<GavelIcon />}>Bid</Button> }}
+                                    />
+                                }
                             </div>
                         </div>
-                        <FormControlLabel control={<Checkbox checked={autoBid.products.includes(id)} color="default" onClick={handleTurnOnAutoBid} />} label="Turn on auto-bid" />
-
+                        {
+                            product.active && <FormControlLabel
+                                control={<Checkbox
+                                    checked={autoBid.products.includes(id)}
+                                    color="default"
+                                    onClick={handleTurnOnAutoBid} />}
+                                label="Turn on auto-bid" />
+                        }
                         <div className='product_description'>
                             <h4>Lot description</h4>
                             <p>{product.description}</p>

@@ -42,12 +42,10 @@
 }
 
 .auction_item-sold {
-    pointer-events: none;
-    opacity: 0.7;
     position: relative;
 
     &::after {
-        content: "Auction closed";
+        content: "Auction finished";
         position: absolute;
         top: 50%;
         right: 50%;
@@ -55,6 +53,7 @@
         transform: translate(50%, -100%) rotate(45deg);
         z-index: 4444;
         font-weight: bold;
+        width: 250px;
     }
 }
 

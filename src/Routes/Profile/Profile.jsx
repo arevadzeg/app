@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux'
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import useBidHistory from '../../hooks/useBidHistory';
-
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 const Profile = () => {
 
@@ -46,7 +46,7 @@ const Profile = () => {
                         <TableCell align="right">Price</TableCell>
                         <TableCell align="right">Current bidder</TableCell>
                         <TableCell align="right">Price</TableCell>
-                        <TableCell align="right">Status</TableCell>
+                        <TableCell align="center">Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -71,7 +71,14 @@ const Profile = () => {
                                     Bid history
                                 </Button>
                             </TableCell>
-                            <TableCell align="right">{checkStatus(product)}</TableCell>
+                            <TableCell align="center">
+                                <div>
+                                    {checkStatus(product)}
+                                </div>
+                                {product.invoice &&
+                                    <a href={product.invoice} target='blank'> <PictureAsPdfIcon /> Invoice</a>
+                                }
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
