@@ -133,7 +133,7 @@ const ProductPage = () => {
                                 </div>
                                 {product.active && <div className='product_info-countdown'>
                                     <b>Ends in</b>
-                                    <span>{countDown.days}d : {countDown.hours}h : {countDown.seconds}s</span>
+                                    <span>{countDown.days}d : {countDown.hours}h : {countDown.minutes}m :{countDown.seconds}s</span>
                                 </div>}
                             </div>
                             <div className='product_info-bottom'>

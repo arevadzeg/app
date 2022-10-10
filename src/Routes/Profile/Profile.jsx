@@ -1,5 +1,4 @@
 import './profile.scss'
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,15 +6,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import useBidHistory from '../../hooks/useBidHistory';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { getUser } from '../../api/authApi';
+import { setUser } from '../../redux/actions';
+import { useEffect } from 'react';
 
 const Profile = () => {
 
     const { user } = useSelector((data) => data)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        getUser().then((res) => {
+            dispatch(setUser(res.data))
+        }).catch((err) => {
+            console.log(err)
+        })
+    }, [])
+
+    console.log(user)
     const navigate = useNavigate()
     const {
         handleModalOpen,
@@ -37,20 +49,20 @@ const Profile = () => {
     return <div className='profile'>
 
 
-        <TableContainer component={Paper}>
+        {user && <TableContainer component={Paper}>
             <Table >
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell align="right">Image</TableCell>
                         <TableCell align="right">Price</TableCell>
-                        <TableCell align="right">Current bidder</TableCell>
                         <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Current bidder</TableCell>
                         <TableCell align="center">Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {user && user.bidHistory.map((product, i) => (
+                    {user && user.bidHistory?.map((product, i) => (
                         <TableRow
                             key={i}
 
@@ -65,7 +77,7 @@ const Profile = () => {
                                 </div>
                             }</TableCell>
                             <TableCell align="right">{product.bidHistory[0].bidder}</TableCell>
-                            <TableCell align="right">{product.onGoingPrice}</TableCell>
+                            <TableCell align="right">{product.onGoingPrice} $</TableCell>
                             <TableCell align="right">
                                 <Button onClick={() => handleModalOpen(product._id)} className='button'>
                                     Bid history
@@ -83,7 +95,7 @@ const Profile = () => {
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer>}
         {BidHistoryModal}
     </div>
 

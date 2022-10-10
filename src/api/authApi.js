@@ -18,3 +18,12 @@ export const verifyToken = () => {
         return err
     }
 }
+
+export const getUser = () => {
+    try {
+        return axios.get('/auth/user')
+    } catch (err) {
+        console.log(err)
+        return err
+    }
+}

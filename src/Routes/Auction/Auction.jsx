@@ -50,9 +50,6 @@ const Auction = () => {
     }, [search, sort])
 
 
-    console.log(page)
-
-
     return <div className="auction">
 
         {!isEmpty(products) && <div className='auction-header'>
